@@ -1,0 +1,34 @@
+name: "Quality: SonarCloud"
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  # Required for SonarCloud to post inline PR-decoration comments.
+  pull-requests: write
+
+jobs:
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Full git history is required for SonarCloud blame annotations and
+          # accurate "new code" detection on pull requests.
+          fetch-depth: 0
+
+      # Uses sonar-project.properties in the repo root for project key,
+      # organisation, and source configuration.  No build step is needed
+      # for a static HTML site.
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
