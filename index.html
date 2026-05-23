@@ -182,7 +182,7 @@
         border: 1px solid var(--border);
         border-radius: 9px;
         overflow: hidden;
-        max-width: 420px;
+        max-width: 470px;
         margin-bottom: 36px;
         box-shadow:
           0 20px 56px rgba(0, 0, 0, 0.6),
@@ -518,7 +518,7 @@
                   <span class="tp">string</span>
                 </div>
                 <div>
-                  <span class="kw">param</span> <span class="nm">dry_run</span>:
+                  <span class="kw">param</span> <span class="nm">dryRun</span>:
                   <span class="tp">bool</span> = <span class="kw">false</span>
                 </div>
                 <div class="blank"></div>
@@ -529,20 +529,49 @@
                   >) {
                 </div>
                 <div>
-                  &nbsp;&nbsp;<span class="nm">dest</span> :=
-                  <span class="st">"${file.date.year}/${file.date.month}"</span>
+                  &nbsp;&nbsp;&nbsp;&nbsp;<span class="nm">year</span
+                  >&nbsp;&nbsp;:= <span class="nm">file</span
+                  ><span class="fn">.modified.year.toString</span>()
                 </div>
                 <div>
-                  &nbsp;&nbsp;<span class="kw">if</span> (!dry_run)
-                  <span class="fn">file.moveTo</span>(<span class="nm"
-                    >dest</span
+                  &nbsp;&nbsp;&nbsp;&nbsp;<span class="nm">month</span>&nbsp;:=
+                  <span class="nm">file</span
+                  ><span class="fn">.modified.format</span>(<span class="st"
+                    >"MMMM"</span
                   >)
                 </div>
+                <div>
+                  &nbsp;&nbsp;&nbsp;&nbsp;<span class="nm">dest</span
+                  >&nbsp;&nbsp;:= <span class="fn">path.join</span>(<span
+                    class="nm"
+                    >source</span
+                  >, <span class="nm">year</span>,
+                  <span class="nm">month</span>)
+                </div>
+                <div>
+                  &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (!<span
+                    class="nm"
+                    >dryRun</span
+                  >) {
+                </div>
+                <div>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                    class="fn"
+                    >fs.ensureDir</span
+                  >(<span class="nm">dest</span>)
+                </div>
+                <div>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                    class="nm"
+                    >file</span
+                  ><span class="fn">.moveTo</span>(<span class="nm">dest</span>)
+                </div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
                 <div>}</div>
                 <div class="blank"></div>
                 <div>
                   <span class="pr">G&gt;</span> grob run organise.grob --source
-                  ~/Downloads
+                  C:\Users\Chris\Downloads
                 </div>
                 <div>
                   <span class="ok">&#10003; 47 files organised.</span
